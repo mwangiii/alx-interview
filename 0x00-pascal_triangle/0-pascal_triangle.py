@@ -2,12 +2,15 @@
 """ Pascal's Triangle """
 
 def pascal_triangle(n):
+    """
+    print the triangle 
+    """
     p = [[1]]
 
     if n <= 0:
         return []
 
-    for i in range(1, n+1):
+    for i in range(1, n):
         row = [1]
         for j in range(1, i):
             if j == i - 1:

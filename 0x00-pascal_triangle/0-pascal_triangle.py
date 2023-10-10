@@ -1,16 +1,17 @@
 #!/usr/bin/python3
 """ Pascal's Triangle """
 
+
 def pascal_triangle(n):
     """
-    print the triangle 
+    print the triangle
     """
     p = [[1]]
 
     if n <= 0:
         return []
 
-    for i in range(1, n):
+    for i in range(1, n+1):
         row = [1]
         for j in range(1, i):
             if j == i - 1:
@@ -20,5 +21,3 @@ def pascal_triangle(n):
         p.append(row)
 
     return p
-
-            

@@ -3,18 +3,15 @@
 
 
 def pascal_triangle(n):
-    """
-    print the triangle
-    """
-    p = [[1]]
+    p = []
 
     if n <= 0:
-        return []
+        return p
 
-    for i in range(1, n+1):
-        row = [1]
-        for j in range(1, i):
-            if j == i - 1:
+    for i in range(n):
+        row = []
+        for j in range(i + 1):
+            if j == 0 or j == i:
                 row.append(1)
             else:
                 row.append(p[i - 1][j] + p[i - 1][j - 1])

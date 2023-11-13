@@ -2,13 +2,8 @@
 
 const request = require('request')
 
-const apiKey = ' https://swapi-api.alx-tools.com/api/'
-
 // The first positional argument passed is the Movie ID - example: 3 = “Return of the Jedi” 
 const movieId = process.argv[2]
-
-
-const request = require('request');
 
 if (!movieId) {
   console.error('Please provide a movie ID as a command line argument.');

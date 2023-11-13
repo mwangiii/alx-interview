@@ -1,9 +1,9 @@
 #!/usr/bin/node
 
-const request = require('request')
+const request = require('request');
 
-// The first positional argument passed is the Movie ID - example: 3 = “Return of the Jedi” 
-const movieId = process.argv[2]
+// The first positional argument passed is the Movie ID - example: 3 = “Return of the Jedi”
+const movieId = process.argv[2];
 
 if (!movieId) {
   console.error('Please provide a movie ID as a command line argument.');

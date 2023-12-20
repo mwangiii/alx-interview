@@ -1,45 +1,52 @@
 #!/usr/bin/node
+// script that prints all the characters of a Star Wars movie:
 
 const request = require('request');
 
-// The first positional argument passed is the Movie ID - example: 3 = “Return of the Jedi”
-const movieId = process.argv[2];
-
-if (!movieId) {
-  console.error('Please provide a movie ID as a command line argument.');
-  process.exit(1);
-}
-
-const apiUrl = `https://swapi-api.alx-tools.com/api/${movieId}/`;
-
-request(apiUrl, (error, response, body) => {
-  if (error) {
-    console.error('Error:', error);
-    process.exit(1);
-  }
-
-  if (response.statusCode !== 200) {
-    console.error(`Unexpected status code: ${response.statusCode}`);
-    process.exit(1);
-  }
-
-  const filmData = JSON.parse(body);
-  const characters = filmData.characters;
-
-  if (!characters || characters.length === 0) {
-    console.log('No characters found for this movie.');
-    process.exit(0);
-  }
-
-  // Displaying one character name per line
-  characters.forEach((characterUrl) => {
-    request(characterUrl, (charError, charResponse, charBody) => {
-      if (!charError && charResponse.statusCode === 200) {
-        const characterData = JSON.parse(charBody);
-        console.log(characterData.name);
+const getCharacterName = (characterUrl) => {
+  return new Promise((resolve, reject) => {
+    request(characterUrl, (error, response, body) => {
+      if (error) {
+        reject(error);
       } else {
-        console.error('Error fetching character:', charError);
+        resolve(JSON.parse(body).name);
       }
     });
   });
-});
+};
+
+const getMovieCharacters = (movieId) => {
+  return new Promise((resolve, reject) => {
+    const url = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
+
+    request(url, (error, response, body) => {
+      if (error) {
+        reject(error);
+      } else {
+        const characters = JSON.parse(body).characters;
+        resolve(characters);
+      }
+    });
+  });
+};
+
+const printCharacters = async (movieId) => {
+  try {
+    const characters = await getMovieCharacters(movieId);
+
+    for (const character of characters) {
+      const characterName = await getCharacterName(character);
+      console.log(characterName);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const movieId = process.argv[2];
+
+if (!movieId) {
+  console.error('Please provide a Movie ID as a command line argument.');
+} else {
+  printCharacters(movieId);
+}
